@@ -1,8 +1,8 @@
-import pandas as pd
-from glob import glob
 import random
 import os
-
+from glob import glob
+from statistics import mean, median, multimode
+import pandas as pd
 class CsvHandler:
     def __init__(self):
         self.name_list = ['Chandler', 'Rubi', 'Marina', 'Riyad', 'Nawal'
@@ -58,10 +58,12 @@ class CsvHandler:
         return random.randint(1,20)
     
     def calculate_csv(self):
-        # TODO
         """並列印出 frequency 中數、眾數及平均數 (取至小數點後 5 位)"""
         df = pd.read_csv("./ilovecoffee/customers.csv")
-        frequency = sorted(df['frequency'])
+        frequency = df['frequency']
+        tmp = [f'{n:.5f}' for n in multimode(frequency)]
+        print(f'中位數{median(frequency):.5f}, 眾數:{tmp}, 平均數:{mean(frequency):.5f}')
         
-
-# c = CsvHandler()
+if __name__ == "__main__":
+    c = CsvHandler()
+    c.calculate_csv()
